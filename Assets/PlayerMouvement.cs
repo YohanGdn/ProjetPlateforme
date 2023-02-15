@@ -11,9 +11,9 @@ public class PlayerMouvement : MonoBehaviour
     float horizontal_value;
     float vertical_value;
     Vector2 ref_velocity = Vector2.zero;
-    float jumpForce = 12f;
+    [SerializeField] float jumpForce = 120f;
     [SerializeField] TrailRenderer tr;
-    [SerializeField] float moveSpeed_horizontal = 4000000.0f;
+    [SerializeField] float moveSpeed_horizontal = 1000.0f ;
     [SerializeField] bool is_jumping = false;
     [SerializeField] bool grounded = false;
     [SerializeField] bool is_crouching = false;
@@ -37,18 +37,20 @@ public class PlayerMouvement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontal_value = Input.GetAxis("Horizontal");
+      
+        horizontal_value = Input.GetAxis("Horizontal") * moveSpeed_horizontal * Time.deltaTime;
         vertical_value = Input.GetAxis("Vertical");
 
         if (horizontal_value > 0) sr.flipX = false;
         else if (horizontal_value < 0) sr.flipX = true;
 
         //animController.SetFloat("Speed", Mathf.Abs(horizontal_value));
-
+        
         if (Input.GetButtonDown("Jump") && grounded && !is_crouching)
         {
             is_jumping = true;
         }
+         
     }
     void FixedUpdate()
     {
@@ -96,7 +98,7 @@ public class PlayerMouvement : MonoBehaviour
         else if (CheckSphere == false)
         {
             is_crouching = false;
-            moveSpeed_horizontal = 400f;
+            // moveSpeed_horizontal = 400f;
             cap.offset = new Vector2(0f, -0.35f);
             cap.size = new Vector2(1f, 1.3f);
             cap.direction = CapsuleDirection2D.Vertical;
