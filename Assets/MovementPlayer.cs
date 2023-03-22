@@ -22,8 +22,8 @@ public class MovementPlayer : MonoBehaviour
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
 
-         moveSpeed = 5f;
-         jumpforce = 100f;
+         moveSpeed = 10f;
+         jumpforce = 50f;
         isJumping = false;
     }
 

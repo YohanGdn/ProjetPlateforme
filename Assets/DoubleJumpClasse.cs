@@ -24,6 +24,8 @@ public class DoubleJumpClasse : MonoBehaviour
     private int LastPressedJumpTime = 0;
     private int LastOnGroundTime = 0;
 
+   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,7 @@ public class DoubleJumpClasse : MonoBehaviour
         if (horizontal_value > 0) sr.flipX = false;
         else if (horizontal_value < 0) sr.flipX = true;
 
-    
+
 
 
         if (Input.GetKeyDown(KeyCode.Space) && CountJump > 0)
@@ -48,29 +50,29 @@ public class DoubleJumpClasse : MonoBehaviour
             Jump();
 
         }
+
+
+
+
+        void Jump()
+        {
+            // Garantit que nous ne pouvons pas appeler Jump plusieurs fois à partir d'une seule pression
+            LastPressedJumpTime = 0;
+            LastOnGroundTime = 0;
+            CountJump -= 1;
+
+            // On augmente la force appliquée si on tombe
+            // Cela signifie que nous aurons toujours l'impression de sauter le même montant
+            float force = jumpForce;
+            if (rb.velocity.y < 0)
+                force -= rb.velocity.y;
+
+
+            rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+
+        }  
+
     }
-    void Jump()
-    {
-        // Garantit que nous ne pouvons pas appeler Jump plusieurs fois à partir d'une seule pression
-        LastPressedJumpTime = 0;
-        LastOnGroundTime = 0;
-        CountJump -= 1;
-
-        // On augmente la force appliquée si on tombe
-        // Cela signifie que nous aurons toujours l'impression de sauter le même montant
-        float force = jumpForce;
-        if (rb.velocity.y < 0)
-            force -= rb.velocity.y;
-
-
-        rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-
-    }
-
-
-
-
-
     void FixedUpdate()
     {
 
@@ -78,23 +80,24 @@ public class DoubleJumpClasse : MonoBehaviour
         rb.velocity = Vector2.SmoothDamp(rb.velocity, target_velocity, ref ref_velocity, 0.05f);
 
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
 
-       
+
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        
+
         IsGrounded = true;
         CountJump = 2; //reset double saut quand on touche le sol
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        
+
         IsGrounded = false;
     }
+
 }
