@@ -8,16 +8,17 @@ public class DoubleJumpClasse : MonoBehaviour
     SpriteRenderer sr;
     float horizontal_value;
     Vector2 ref_velocity = Vector2.zero;
+    CapsuleCollider2D CapsulPlayer;
 
 
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float moveSpeed_horizontal = 400.0f;
-    [Range(-10, 10)] [SerializeField] float smooth_time = 1f;
+    [Range(-1000, 1000)] [SerializeField] float SmoothDamp = 1f;
     bool is_jumping = false;
     bool can_jump = false;
+    public bool cotedroit;
+
     
-
-
 
     [SerializeField] bool IsGrounded = false;
     [SerializeField] int CountJump = 2;
@@ -31,21 +32,33 @@ public class DoubleJumpClasse : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        CapsulPlayer = GetComponent<CapsuleCollider2D>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        
+
         horizontal_value = Input.GetAxis("Horizontal");
 
-        if (horizontal_value > 0) sr.flipX = false;
-        else if (horizontal_value < 0) sr.flipX = true;
+        if (horizontal_value > 0)
+        {
+            sr.flipX = false;
+
+        }
+        else if (horizontal_value < 0)
+        {
+            sr.flipX = true;
+
+
+        }
 
 
 
-
-        if (Input.GetKeyDown(KeyCode.Space) && CountJump > 0)
+            if (Input.GetKeyDown(KeyCode.Space) && CountJump > 0)
         {
             Jump();
 
@@ -77,7 +90,7 @@ public class DoubleJumpClasse : MonoBehaviour
     {
 
         Vector2 target_velocity = new Vector2(horizontal_value * moveSpeed_horizontal * Time.fixedDeltaTime, rb.velocity.y);
-        rb.velocity = Vector2.SmoothDamp(rb.velocity, target_velocity, ref ref_velocity, 0.05f);
+        rb.velocity = target_velocity;
 
     }
     void OnTriggerStay2D(Collider2D collision)
@@ -91,11 +104,18 @@ public class DoubleJumpClasse : MonoBehaviour
     {
 
         IsGrounded = true;
+        CapsulPlayer.sharedMaterial.friction = 10;
+        CapsulPlayer.enabled = false;
+        CapsulPlayer.enabled = true;
+
         CountJump = 2; //reset double saut quand on touche le sol
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        CapsulPlayer.sharedMaterial.friction = 0;
+        CapsulPlayer.enabled = false;
+        CapsulPlayer.enabled = true;
 
         IsGrounded = false;
     }

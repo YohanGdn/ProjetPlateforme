@@ -9,8 +9,9 @@ public class DashMeca : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
     private float dashingPower = 350f;
-    private float dashingTime = 0.2f;
+    private float dashingTime = 0.1f;
     private float dashingCooldown = 1f;
+    public bool cotedroit;
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundcheck;
@@ -23,7 +24,7 @@ public class DashMeca : MonoBehaviour
 
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -39,8 +40,23 @@ public class DashMeca : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
-            StartCoroutine(Dash());
+            if(rb.velocity.x>0)
+            {
+                StartCoroutine(Dash());
+                
+            }
+            else
+            {
+
+                rb.velocity *= -1;
+                StartCoroutine(Dash());
+                
+                rb.velocity *= -1;
+            }
+                
         }
+        //if input a gauche quand tu fais le isdashing le rb veloctity -
+
 
         if(isDashing)
         {
