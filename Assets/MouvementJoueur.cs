@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleJumpClasse : MonoBehaviour
+public class MouvementJoueur : MonoBehaviour
 {
     Rigidbody2D rb;
     SpriteRenderer sr;

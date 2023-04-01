@@ -901,11 +901,9 @@ GameObject:
   - component: {fileID: 611377784}
   - component: {fileID: 611377778}
   - component: {fileID: 611377780}
-  - component: {fileID: 611377779}
   - component: {fileID: 611377781}
   - component: {fileID: 611377782}
   - component: {fileID: 611377785}
-  - component: {fileID: 611377783}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1011,26 +1009,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 1
-  m_GravityScale: 30
+  m_GravityScale: 35
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &611377779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611377774}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d92339ebf28324546945037281cf1ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpforce: 72.4
-  moveSpeed: 1
 --- !u!61 &611377780
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1069,9 +1053,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464ea112527e9cb4a8220a132c62f311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 80
+  jumpForce: 65
   moveSpeed_horizontal: 2000
-  SmoothDamp: -36
+  SmoothDamp: 1
   cotedroit: 0
   IsGrounded: 0
   CountJump: 5
@@ -1182,27 +1166,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
-  m_Emitting: 1
---- !u!114 &611377783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611377774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62c05f6006371184b85c1e6d5fcf0b1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashingPower: 2000
-  cotedroit: 0
-  rb: {fileID: 611377778}
-  groundcheck: {fileID: 169240880}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  tr: {fileID: 611377782}
+  m_Emitting: 0
 --- !u!114 &611377784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1223,15 +1187,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 611377774}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39dc919d9be7b564691adbbe6c139d9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 62c05f6006371184b85c1e6d5fcf0b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: 5
-  hearts:
-  - {fileID: 0}
-  - {fileID: 0}
+  dashingPower: -100
+  dashingTime: 0.1
+  dashingCooldown: 2
+  cotedroit: 0
+  rb: {fileID: 611377778}
+  groundcheck: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  tr: {fileID: 611377782}
 --- !u!1 &856456926
 GameObject:
   m_ObjectHideFlags: 0
