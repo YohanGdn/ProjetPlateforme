@@ -113,11 +113,11 @@ public class CharacterController2D : MonoBehaviour
         IsGrounded = false;
     }
 
-
+    public LayerMask groundLayer;
+    public float groundCheckRadius;
     private bool CheckIsGrounded()
     {
-        // Ajouter ici la détection du sol, par exemple en utilisant une vérification de raycast ou de collision
-        // En attendant, nous retournons simplement "true" pour permettre des sauts continus
-        return true;
+        Vector2 groundCheckPosition = new Vector2(transform.position.x, transform.position.y - CapsulPlayer.size.y * 0.6f);
+        return Physics2D.OverlapCircle(groundCheckPosition, groundCheckRadius, groundLayer);
     }
 }

@@ -1464,9 +1464,13 @@ MonoBehaviour:
   maxJumps: 2
   dashSpeed: 80
   dashDuration: 0.2
-  dashCooldown: 2
+  dashCooldown: 0
   tr: {fileID: 611377782}
   IsGrounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  groundCheckRadius: 0
 --- !u!114 &611377788
 MonoBehaviour:
   m_ObjectHideFlags: 0
