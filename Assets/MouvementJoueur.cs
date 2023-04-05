@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MouvementJoueur : MonoBehaviour
+    
 {
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -13,17 +14,18 @@ public class MouvementJoueur : MonoBehaviour
 
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float moveSpeed_horizontal = 400.0f;
-    [Range(-1000, 1000)] [SerializeField] float SmoothDamp = 1f;
-    bool is_jumping = false;
-    bool can_jump = false;
+    //[Range(-1000, 1000)] [SerializeField] float SmoothDamp = 1f;
+    //[Range(-10, 10)][SerializeField] float smooth_time = 1f;
+    //bool is_jumping = false;
+    //bool can_jump = false;
     public bool cotedroit;
 
     
 
     [SerializeField] bool IsGrounded = false;
     [SerializeField] int CountJump = 2;
-    private int LastPressedJumpTime = 0;
-    private int LastOnGroundTime = 0;
+    //private int LastPressedJumpTime = 0;
+    //private int LastOnGroundTime = 0;
 
    
 
@@ -70,8 +72,8 @@ public class MouvementJoueur : MonoBehaviour
         void Jump()
         {
             // Garantit que nous ne pouvons pas appeler Jump plusieurs fois à partir d'une seule pression
-            LastPressedJumpTime = 0;
-            LastOnGroundTime = 0;
+            //LastPressedJumpTime = 0;
+            //LastOnGroundTime = 0;
             CountJump -= 1;
 
             // On augmente la force appliquée si on tombe
@@ -90,17 +92,18 @@ public class MouvementJoueur : MonoBehaviour
     {
 
         Vector2 target_velocity = new Vector2(horizontal_value * moveSpeed_horizontal * Time.fixedDeltaTime, rb.velocity.y);
+        //rb.velocity = Vector2.SmoothDamp(rb.velocity, target_velocity, ref ref_velocity, 0.05f);
         rb.velocity = target_velocity;
-
+        
     }
-    void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
 
 
 
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    /* private void OnTriggerEnter2D(Collider2D collision)
     {
 
         IsGrounded = true;
@@ -108,10 +111,10 @@ public class MouvementJoueur : MonoBehaviour
         CapsulPlayer.enabled = false;
         CapsulPlayer.enabled = true;
 
-        CountJump = 2; //reset double saut quand on touche le sol
+        //CountJump = 2; //reset double saut quand on touche le sol
     }
 
-    void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         CapsulPlayer.sharedMaterial.friction = 0;
         CapsulPlayer.enabled = false;
@@ -119,5 +122,5 @@ public class MouvementJoueur : MonoBehaviour
 
         IsGrounded = false;
     }
-
+    */
 }

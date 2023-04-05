@@ -8,7 +8,7 @@ public class DashMeca : MonoBehaviour
 
     private bool canDash = true;
     private bool isDashing;
-    [SerializeField] private float dashingPower = 500f;
+    [SerializeField] private float dashingPower = 5000f;
     [SerializeField] private float dashingTime = 0.1f;
     [SerializeField] private float dashingCooldown = 1f;
 
@@ -33,6 +33,7 @@ public class DashMeca : MonoBehaviour
 
     {
 
+
         if (isDashing)
         {
             return;
@@ -41,23 +42,8 @@ public class DashMeca : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
-            if (rb.velocity.x > 0)
-            {
-                StartCoroutine(Dash());
-
-            }
-            else
-            {
-
-                rb.velocity *= -1;
-                StartCoroutine(Dash());
-
-                rb.velocity *= -1;
-            }
-
+            StartCoroutine(Dash());
         }
-        //Permet de détecter la position du joueur pour dasher là où il regarde
-
 
         if (isDashing)
         {
@@ -74,7 +60,7 @@ public class DashMeca : MonoBehaviour
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        rb.velocity = new Vector2(transform.localScale.y * dashingPower, -5f);
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, rb.velocity.y);
         tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         tr.emitting = false;
