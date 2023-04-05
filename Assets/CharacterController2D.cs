@@ -20,7 +20,7 @@ public class CharacterController2D : MonoBehaviour
 
     [SerializeField] private TrailRenderer tr;
 
-    [SerializeField] bool IsGrounded = false;
+    [SerializeField] bool IsGrounded = true;
 
 
     private void Start()
