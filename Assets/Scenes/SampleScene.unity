@@ -1461,10 +1461,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 50
   jumpForce: 60
-  maxJumps: 2
+  maxJumps: 1
   dashSpeed: 80
   dashDuration: 0.2
-  dashCooldown: 0
+  dashCooldown: 2
   tr: {fileID: 611377782}
   IsGrounded: 0
   groundLayer:
@@ -1501,7 +1501,7 @@ MonoBehaviour:
   shieldDuration: 3
   shieldCooldown: 3
   shieldKey: 101
-  shieldMaterial: {fileID: 6200000, guid: 5584582efbbdb29498f5fbf849ccfe63, type: 2}
+  shieldMaterial: {fileID: 0}
 --- !u!1 &856456926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,7 +2203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620468674}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -38.882805, y: -0.03978324, z: -0.2129465}
+  m_LocalPosition: {x: -60.5, y: -0.03978324, z: -0.2129465}
   m_LocalScale: {x: 7.617865, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -22,6 +22,9 @@ public class CharacterController2D : MonoBehaviour
 
     [SerializeField] bool IsGrounded = true;
 
+    enum Test { state1, state2, state3, state4 };
+    Test myEnum = Test.state1;
+
 
     private void Start()
     {
@@ -35,6 +38,8 @@ public class CharacterController2D : MonoBehaviour
 
     private void Update()
     {
+
+        UpdateSwitchState();
         if (!isDashing)
         {
             float horizontal = Input.GetAxis("Horizontal");
@@ -119,5 +124,73 @@ public class CharacterController2D : MonoBehaviour
     {
         Vector2 groundCheckPosition = new Vector2(transform.position.x, transform.position.y - CapsulPlayer.size.y * 0.6f);
         return Physics2D.OverlapCircle(groundCheckPosition, groundCheckRadius, groundLayer);
+    }
+
+
+    
+    
+
+    // Update is called once per frame
+    void UpdateSwitchState()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            switch (myEnum)
+            {
+                case Test.state1:
+                    myEnum = Test.state2;
+                    break;
+                case Test.state2:
+                    myEnum = Test.state3;
+                    break;
+                case Test.state3:
+                    myEnum = Test.state4;
+                    break;
+                case Test.state4:
+                    myEnum = Test.state1;
+                    break;
+            }
+            UpdateState();
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+             
+            switch (myEnum)
+            {
+                case Test.state1:
+                    myEnum = Test.state4;
+                    break;
+                case Test.state2:
+                    myEnum = Test.state1;
+                    break;
+                case Test.state3:
+                    myEnum = Test.state2;
+                    break;
+                case Test.state4:
+                    myEnum = Test.state3;
+                    break;
+            }
+            UpdateState();
+        }
+       
+    }
+    // Création méthode avec Alt + Entrée
+    private void UpdateState()
+    {
+        switch (myEnum)
+        {
+            case Test.state1:
+                Debug.Log("State1");
+                break;
+            case Test.state2:
+                Debug.Log("State2");
+                break;
+            case Test.state3:
+                Debug.Log("State3");
+                break;
+            case Test.state4:
+                Debug.Log("State4");
+                break;
+        }
     }
 }

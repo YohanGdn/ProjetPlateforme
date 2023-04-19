@@ -10,6 +10,9 @@ public class PlatformsDamage : MonoBehaviour
     private Vector3 respawnPoint;
     public GameObject PlatformDamage;
 
+    // Ajouter une variable booléenne pour garder la trace de l'état du bouclier
+    private bool isShieldActive = false;
+
     void Start()
     {
         respawnPoint = transform.position;
@@ -21,9 +24,20 @@ public class PlatformsDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "PlatformDamage")
+        if (collision.tag == "PlatformDamage")
         {
-            transform.position = respawnPoint;
+            // Vérifier si le bouclier est activé
+            if (!isShieldActive)
+            {
+                transform.position = respawnPoint;
+            }
         }
+    }
+
+
+    // Ajouter une méthode pour activer/désactiver le bouclier depuis d'autres classes
+    public void SetShieldActive(bool active)
+    {
+        isShieldActive = active;
     }
 }

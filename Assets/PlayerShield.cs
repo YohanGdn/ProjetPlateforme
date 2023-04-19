@@ -16,10 +16,16 @@ public class PlayerShield : MonoBehaviour
     private PhysicsMaterial2D originalMaterial;
     [SerializeField] private PhysicsMaterial2D shieldMaterial;
 
+    private PlatformsDamage platformsDamage; // Ajouter une référence à la classe PlatformsDamage
+
     private void Start()
     {
         capsulePlayer = GetComponent<CapsuleCollider2D>();
         originalMaterial = capsulePlayer.sharedMaterial;
+
+
+        // Obtenir la référence à la classe PlatformsDamage
+        platformsDamage = GetComponent<PlatformsDamage>();
     }
 
     void Update()
@@ -29,7 +35,7 @@ public class PlayerShield : MonoBehaviour
             StartCoroutine(ActivateShield());
         }
 
-        UpdateBounciness();
+        //UpdateBounciness();
     }
 
     private IEnumerator ActivateShield()
@@ -41,6 +47,8 @@ public class PlayerShield : MonoBehaviour
 
         capsulePlayer.sharedMaterial = shieldMaterial;
 
+        platformsDamage.SetShieldActive(true); // Activer le bouclier dans la classe PlatformsDamage
+
         yield return new WaitForSeconds(shieldDuration);
 
         Destroy(activeShield);
@@ -49,9 +57,11 @@ public class PlayerShield : MonoBehaviour
 
         yield return new WaitForSeconds(shieldCooldown);
 
+        platformsDamage.SetShieldActive(false); // Désactiver le bouclier dans la classe PlatformsDamage
+
         shieldReady = true;
     }
-
+    /*
     private void UpdateBounciness()
     {
         if (HasShield())
@@ -68,4 +78,5 @@ public class PlayerShield : MonoBehaviour
     {
         return activeShield != null;
     }
+    */
 }
