@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Ne pas appliquer de dégâts si le bouclier est actif
-        if (playerShield != null && playerShield.HasShield())
+        //if (playerShield != null && playerShield.HasShield())
         {
             return;
         }
