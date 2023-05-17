@@ -74,9 +74,10 @@ public class PlayerShield : MonoBehaviour
         }
     }
 
+     */
     public bool HasShield()
     {
         return activeShield != null;
     }
-    */
+    
 }

@@ -1,73 +1,68 @@
 
-/*
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class ChangementEtat : MonoBehaviour
-
-    enum PlayerState { DoubleJump, Dash, Shield }
-    PlayerState currentState = PlayerState.DoubleJump;
 {
+    enum CharacterState { Normal, DoubleJump, Dash, Shield };
+    CharacterState currentCharacterState = CharacterState.Normal;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            switch (currentState)
+            switch (currentCharacterState)
             {
-                case PlayerState.DoubleJump:
-                    currentState = PlayerState.Dash;
+                case CharacterState.Normal:
+                    currentCharacterState = CharacterState.DoubleJump;
+                    Debug.Log("EtatDoubleJump");
                     break;
-                case PlayerState.Dash
-                    currentState = PlayerState.Shield;
+                case CharacterState.DoubleJump:
+                    currentCharacterState = CharacterState.Dash;
+                    Debug.Log("EtatDash");
                     break;
-                case layerState.Shield:
-                    currentState = PlayerState.DoubleJump;
+                case CharacterState.Dash:
+                    currentCharacterState = CharacterState.Shield;
+                    Debug.Log("EtatShield");
                     break;
-                
+                case CharacterState.Shield:
+                    currentCharacterState = CharacterState.DoubleJump;
+                    Debug.Log("EtatDoubleJump");
+                    break;
             }
         }
-        if (Input.GetKeyDown(KeyCode.A))
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            switch (currentState)
+            switch (currentCharacterState)
             {
-                case Test.state1:
-                    currentState = Test.state4;
+                case CharacterState.Normal:
+                    currentCharacterState = CharacterState.DoubleJump;
+                    Debug.Log("EtatDoubleJump");
                     break;
-                case Test.state2:
-                    currentState = Test.state1;
+                case CharacterState.DoubleJump:
+                    currentCharacterState = CharacterState.Shield;
+                    Debug.Log("EtatShield");
                     break;
-                case Test.state3:
-                    currentState = Test.state2;
+                case CharacterState.Shield:
+                    currentCharacterState = CharacterState.Dash;
+                    Debug.Log("EtatDash");
                     break;
-               
+                case CharacterState.Dash:
+                    currentCharacterState = CharacterState.DoubleJump;
+                    Debug.Log("EtatDoubleJump");
+                    break;
+
             }
-        }
-        switch (myEnum)
-        {
-            case Test.state1:
-                Debug.Log("State1");
-                break;
-            case Test.state2:
-                Debug.Log("State2");
-                break;
-            case Test.state3:
-                Debug.Log("State3");
-                break;
-            case Test.state4:
-                Debug.Log("State4");
-                break;
         }
     }
 }
-
-*/

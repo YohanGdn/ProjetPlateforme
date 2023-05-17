@@ -17,13 +17,22 @@ public class CharacterController2D : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
     private int remainingJumps;
+    /*
+    private bool tris;
+    private bool joie;
+    private bool colere;
+    private bool defaulttype;
+    */
 
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] bool IsGrounded = true;
-
+/*
     enum Test { state1, state2, state3, state4 };
     Test myEnum = Test.state1;
+*/
+    enum CharacterState { Normal, DoubleJump, Dash, Shield };
+    CharacterState currentCharacterState = CharacterState.Normal;
 
 
     private void Start()
@@ -39,8 +48,9 @@ public class CharacterController2D : MonoBehaviour
     private void Update()
     {
 
-        UpdateSwitchState();
-        if (!isDashing)
+        
+
+        if (!isDashing /*&& colere == true*/)
         {
             float horizontal = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
@@ -125,19 +135,26 @@ public class CharacterController2D : MonoBehaviour
         Vector2 groundCheckPosition = new Vector2(transform.position.x, transform.position.y - CapsulPlayer.size.y * 0.6f);
         return Physics2D.OverlapCircle(groundCheckPosition, groundCheckRadius, groundLayer);
     }
-
-
-    
-    
+    /*
+    public bool IsTrist()
+    {
+        return tris;
+    }
+    */
 
     // Update is called once per frame
+
+    /*
     void UpdateSwitchState()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            switch (myEnum)
+
+            
+
+            switch (enum)
             {
-                case Test.state1:
+                case CharacterState.Normal:
                     myEnum = Test.state2;
                     break;
                 case Test.state2:
@@ -155,7 +172,7 @@ public class CharacterController2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
              
-            switch (myEnum)
+            switch (enum)
             {
                 case Test.state1:
                     myEnum = Test.state4;
@@ -193,4 +210,5 @@ public class CharacterController2D : MonoBehaviour
                 break;
         }
     }
+    */
 }
