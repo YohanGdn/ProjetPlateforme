@@ -111,7 +111,9 @@ public class CharacterController2D : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        IsGrounded = true;
+       
+
+            IsGrounded = true;
         CapsulPlayer.sharedMaterial.friction = 10;
         CapsulPlayer.enabled = false;
         CapsulPlayer.enabled = true;
@@ -121,11 +123,12 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        IsGrounded = false;
         CapsulPlayer.sharedMaterial.friction = 0;
         CapsulPlayer.enabled = false;
         CapsulPlayer.enabled = true;
 
-        IsGrounded = false;
+        
     }
 
     public LayerMask groundLayer;

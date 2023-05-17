@@ -22,7 +22,7 @@ public class MouvementJoueur : MonoBehaviour
 
     
 
-    [SerializeField] bool IsGrounded = false;
+    //[SerializeField] bool IsGrounded = false;
     [SerializeField] int CountJump = 2;
     //private int LastPressedJumpTime = 0;
     //private int LastOnGroundTime = 0;
