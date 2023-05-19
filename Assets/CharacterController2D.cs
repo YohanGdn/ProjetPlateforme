@@ -27,10 +27,12 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] bool IsGrounded = true;
-/*
-    enum Test { state1, state2, state3, state4 };
-    Test myEnum = Test.state1;
-*/
+
+    bool unlockdash = false;
+    /*
+        enum Test { state1, state2, state3, state4 };
+        Test myEnum = Test.state1;
+    */
     enum CharacterState { Normal, DoubleJump, Dash, Shield };
     CharacterState currentCharacterState = CharacterState.Normal;
 
@@ -77,7 +79,7 @@ public class CharacterController2D : MonoBehaviour
             remainingJumps--;
         }
 
-        if (canDash && Input.GetKeyDown(KeyCode.LeftShift))
+        if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true)
         {
             StartCoroutine(Dash());
         }
@@ -118,7 +120,13 @@ public class CharacterController2D : MonoBehaviour
         CapsulPlayer.enabled = false;
         CapsulPlayer.enabled = true;
 
-        
+        if (collision.gameObject.CompareTag("dash"))
+        {
+            unlockdash = true;
+        }
+
+
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -214,4 +222,6 @@ public class CharacterController2D : MonoBehaviour
         }
     }
     */
+
+    
 }
