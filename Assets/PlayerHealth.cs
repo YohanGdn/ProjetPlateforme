@@ -6,12 +6,12 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int maxHealth = 100;
 
     private int currentHealth;
-    private PlayerShield playerShield;
+    private Shield playerShield;
 
     void Start()
     {
         currentHealth = maxHealth;
-        playerShield = GetComponent<PlayerShield>();
+        playerShield = GetComponent<Shield>();
     }
 
     public void TakeDamage(int damage)

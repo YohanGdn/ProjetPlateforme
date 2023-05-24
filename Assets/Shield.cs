@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerShield : MonoBehaviour
+public class Shield : MonoBehaviour
 {
     [SerializeField] private GameObject shieldPrefab;
     [SerializeField] private Transform shieldSpawnPoint;
@@ -61,6 +61,9 @@ public class PlayerShield : MonoBehaviour
 
         shieldReady = true;
     }
+
+
+    
     /*
     private void UpdateBounciness()
     {

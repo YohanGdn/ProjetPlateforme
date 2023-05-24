@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DashMeca : MonoBehaviour
+public class DoubleJump : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
@@ -71,7 +71,7 @@ public class DashMeca : MonoBehaviour
 
 
 
-        
+
         if (CheckIsGrounded())
         {
             remainingJumps = maxJumps;
@@ -83,39 +83,14 @@ public class DashMeca : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             remainingJumps--;
         }
+
+
         
 
-        if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true)
-        {
-            StartCoroutine(Dash());
-        }
-
-
 
     }
 
-    private IEnumerator Dash()
-    {
-        isDashing = true;
-        canDash = false;
-
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
-
-        float dashDirection = sr.flipX ? -1f : 1f;
-
-        rb.velocity = new Vector2(dashDirection * dashSpeed, 0f);
-        tr.emitting = true;
-        yield return new WaitForSeconds(dashDuration);
-
-        isDashing = false;
-        tr.emitting = false;
-        rb.gravityScale = originalGravity;
-
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
-
-    }
+   
 
 
 
@@ -125,12 +100,11 @@ public class DashMeca : MonoBehaviour
     {
 
 
-        /*
+
         IsGrounded = true;
         CapsulPlayer.sharedMaterial.friction = 10;
         CapsulPlayer.enabled = false;
         CapsulPlayer.enabled = true;
-        */
 
         if (collision.gameObject.CompareTag("dash"))
         {
@@ -141,7 +115,7 @@ public class DashMeca : MonoBehaviour
 
 
     }
-    /*
+
     private void OnTriggerExit2D(Collider2D collision)
     {
 
@@ -154,9 +128,9 @@ public class DashMeca : MonoBehaviour
 
 
     }
-    */
 
-    
+
+
     public LayerMask groundLayer;
     public float groundCheckRadius;
     private bool CheckIsGrounded()
