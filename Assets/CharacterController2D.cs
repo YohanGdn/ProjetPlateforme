@@ -9,33 +9,71 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private int maxJumps = 1;
 
+    
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
+    
 
     CapsuleCollider2D CapsulPlayer;
+
+
     private Rigidbody2D rb;
+    
     private SpriteRenderer sr;
+    
     private bool isDashing = false;
     private bool canDash = true;
+    
     private int remainingJumps;
-    private bool hasJumped = false;
+    private bool hasJumped = false; // Nouvelle variable
+
+
+
+
+    /*
+    private bool tris;
+    private bool joie;
+    private bool colere;
+    private bool defaulttype;
+    */
+
 
     [SerializeField] private TrailRenderer tr;
-    [SerializeField] private bool IsGrounded = true;
-    private bool unlockdash = false;
+
+    [SerializeField] bool IsGrounded = true;
+
+    bool unlockdash = false;
+    
+
+    /*
+        enum Test { state1, state2, state3, state4 };
+        Test myEnum = Test.state1;
+    */
+
+    /*
+    enum CharacterState { Normal, DoubleJump, Dash, Shield };
+    CharacterState currentCharacterState = CharacterState.Normal;
+    */
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
         sr = GetComponent<SpriteRenderer>();
+        
         remainingJumps = maxJumps;
+        hasJumped = false; // Réinitialise la variable hasJumped lorsque le personnage est au sol
+
         CapsulPlayer = GetComponent<CapsuleCollider2D>();
+
     }
 
     private void Update()
     {
-        if (!isDashing)
+
+        if (!isDashing /*&& colere == true*/)
         {
             float horizontal = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
@@ -50,26 +88,34 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
+
+
+
+
+
         if (CheckIsGrounded())
         {
             remainingJumps = maxJumps;
-            hasJumped = false;
+            hasJumped = false; // Réinitialise la variable hasJumped lorsque le personnage est au sol
         }
 
-        if (remainingJumps > 0 && Input.GetKeyDown(KeyCode.Space) && !hasJumped)
+        if (remainingJumps > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             remainingJumps--;
-            hasJumped = true;
         }
-
+        
+        
         if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true)
         {
             StartCoroutine(Dash());
         }
+        
+        
+        
     }
-
+    
     private IEnumerator Dash()
     {
         isDashing = true;
@@ -77,6 +123,7 @@ public class CharacterController2D : MonoBehaviour
 
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
+
         float dashDirection = sr.flipX ? -1f : 1f;
 
         rb.velocity = new Vector2(dashDirection * dashSpeed, 0f);
@@ -86,25 +133,51 @@ public class CharacterController2D : MonoBehaviour
         isDashing = false;
         tr.emitting = false;
         rb.gravityScale = originalGravity;
+
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+        
     }
+    
+    
+    
+    //Permet au joueur de ne pas glisser sur les plateforme tout en ne restant pas accroché aux murs
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+       
+
+            IsGrounded = true;
+        CapsulPlayer.sharedMaterial.friction = 10;
+        CapsulPlayer.enabled = false;
+        CapsulPlayer.enabled = true;
+        
+        
         if (collision.gameObject.CompareTag("dash"))
         {
             unlockdash = true;
         }
+        
+
+
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("dash"))
-        {
-            unlockdash = false;
-        }
+
+        IsGrounded = false;
+        CapsulPlayer.sharedMaterial.friction = 0;
+        CapsulPlayer.enabled = false;
+        CapsulPlayer.enabled = true;
+
+        
+
+
     }
+
+
 
     public LayerMask groundLayer;
     public float groundCheckRadius;
