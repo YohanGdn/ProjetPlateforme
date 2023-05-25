@@ -45,7 +45,7 @@ public class Shield : MonoBehaviour
         activeShield = Instantiate(shieldPrefab, shieldSpawnPoint.position, Quaternion.identity);
         activeShield.transform.SetParent(transform);
 
-        capsulePlayer.sharedMaterial = shieldMaterial;
+        //capsulePlayer.sharedMaterial = shieldMaterial;
 
         platformsDamage.SetShieldActive(true); // Activer le bouclier dans la classe PlatformsDamage
 
@@ -53,7 +53,7 @@ public class Shield : MonoBehaviour
 
         Destroy(activeShield);
 
-        capsulePlayer.sharedMaterial = originalMaterial;
+        //capsulePlayer.sharedMaterial = originalMaterial;
 
         yield return new WaitForSeconds(shieldCooldown);
 

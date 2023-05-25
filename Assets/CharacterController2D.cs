@@ -7,9 +7,10 @@ public class CharacterController2D : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private int maxJumps = 1;
+     public int maxJumps = 1;
 
-    
+    [SerializeField] DashMeca dashMeca;
+
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
@@ -25,7 +26,7 @@ public class CharacterController2D : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
     
-    private int remainingJumps;
+    [SerializeField]public int remainingJumps;
     private bool hasJumped = false; // Nouvelle variable
 
 
@@ -73,7 +74,7 @@ public class CharacterController2D : MonoBehaviour
     private void Update()
     {
 
-        if (!isDashing /*&& colere == true*/)
+        if (!isDashing ) //gameObject.GetComponent<DashMeca>().colere)
         {
             float horizontal = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
@@ -95,19 +96,19 @@ public class CharacterController2D : MonoBehaviour
 
         if (CheckIsGrounded())
         {
-            remainingJumps = maxJumps;
+            
             hasJumped = false; // Réinitialise la variable hasJumped lorsque le personnage est au sol
         }
 
         if (remainingJumps > 0 && Input.GetKeyDown(KeyCode.Space))
         {
+            remainingJumps--;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            remainingJumps--;
         }
         
         
-        if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true)
+        if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true && dashMeca.colere == true)
         {
             StartCoroutine(Dash());
         }
@@ -146,9 +147,9 @@ public class CharacterController2D : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-       
+        remainingJumps = maxJumps;
 
-            IsGrounded = true;
+        IsGrounded = true;
         CapsulPlayer.sharedMaterial.friction = 10;
         CapsulPlayer.enabled = false;
         CapsulPlayer.enabled = true;

@@ -6,8 +6,13 @@ using UnityEngine;
 
 public class ChangementEtat : MonoBehaviour
 {
+
     enum CharacterState { Normal, DoubleJump, Dash, Shield };
-    CharacterState currentCharacterState = CharacterState.Normal;
+    [SerializeField]CharacterState currentCharacterState = CharacterState.Normal;
+    [SerializeField] CharacterController2D Cc;
+    [SerializeField] DoubleJump doubleJump;
+    [SerializeField] DashMeca dash;
+    [SerializeField] Shield shield;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +68,28 @@ public class ChangementEtat : MonoBehaviour
                     break;
 
             }
+        }
+        if (currentCharacterState == CharacterState.DoubleJump)
+        {
+            doubleJump.enabled = true;
+            dash.colere = false;
+            dash.enabled = false;
+            shield.enabled = false;
+        }
+        if (currentCharacterState == CharacterState.Dash)
+        {
+            Cc.maxJumps = 1;
+            doubleJump.enabled = false;
+            dash.enabled = true;
+            shield.enabled = false;
+        }
+        if (currentCharacterState == CharacterState.Shield)
+        {
+            Cc.maxJumps = 1;
+            doubleJump.enabled = false;
+            dash.colere = false;
+            dash.enabled = false;
+            shield.enabled = true;
         }
     }
 }
