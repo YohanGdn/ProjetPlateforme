@@ -7,6 +7,8 @@ TagManager:
   - Platform
   - PlatformDamage
   - dash
+  - DoubleJump
+  - Shield
   layers:
   - Default
   - TransparentFX

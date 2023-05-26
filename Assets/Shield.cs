@@ -16,6 +16,8 @@ public class Shield : MonoBehaviour
     private PhysicsMaterial2D originalMaterial;
     [SerializeField] private PhysicsMaterial2D shieldMaterial;
 
+    bool unlockShield = false;
+
     private PlatformsDamage platformsDamage; // Ajouter une référence à la classe PlatformsDamage
 
     private void Start()
@@ -30,7 +32,7 @@ public class Shield : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(shieldKey) && shieldReady)
+        if (Input.GetKeyDown(shieldKey) && shieldReady && unlockShield == true)
         {
             StartCoroutine(ActivateShield());
         }
@@ -62,8 +64,19 @@ public class Shield : MonoBehaviour
         shieldReady = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
 
-    
+
+        if (collision.gameObject.CompareTag("Shield"))
+        {
+            unlockShield = true;
+        }
+
+
+
+    }
+
     /*
     private void UpdateBounciness()
     {

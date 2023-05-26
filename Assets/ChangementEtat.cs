@@ -1,24 +1,17 @@
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangementEtat : MonoBehaviour
 {
-
     enum CharacterState { Normal, DoubleJump, Dash, Shield };
-    [SerializeField]CharacterState currentCharacterState = CharacterState.Normal;
+    [SerializeField] CharacterState currentCharacterState = CharacterState.Normal;
     [SerializeField] CharacterController2D Cc;
     [SerializeField] DoubleJump doubleJump;
     [SerializeField] DashMeca dash;
     [SerializeField] Shield shield;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    bool unlockDoubleJump = false;
 
     // Update is called once per frame
     void Update()
@@ -29,19 +22,19 @@ public class ChangementEtat : MonoBehaviour
             {
                 case CharacterState.Normal:
                     currentCharacterState = CharacterState.DoubleJump;
-                    Debug.Log("EtatDoubleJump");
+                    UnityEngine.Debug.Log("EtatDoubleJump");
                     break;
                 case CharacterState.DoubleJump:
                     currentCharacterState = CharacterState.Dash;
-                    Debug.Log("EtatDash");
+                    UnityEngine.Debug.Log("EtatDash");
                     break;
                 case CharacterState.Dash:
                     currentCharacterState = CharacterState.Shield;
-                    Debug.Log("EtatShield");
+                    UnityEngine.Debug.Log("EtatShield");
                     break;
                 case CharacterState.Shield:
                     currentCharacterState = CharacterState.DoubleJump;
-                    Debug.Log("EtatDoubleJump");
+                    UnityEngine.Debug.Log("EtatDoubleJump");
                     break;
             }
         }
@@ -52,30 +45,37 @@ public class ChangementEtat : MonoBehaviour
             {
                 case CharacterState.Normal:
                     currentCharacterState = CharacterState.DoubleJump;
-                    Debug.Log("EtatDoubleJump");
+                    UnityEngine.Debug.Log("EtatDoubleJump");
                     break;
                 case CharacterState.DoubleJump:
                     currentCharacterState = CharacterState.Shield;
-                    Debug.Log("EtatShield");
+                    UnityEngine.Debug.Log("EtatShield");
                     break;
                 case CharacterState.Shield:
                     currentCharacterState = CharacterState.Dash;
-                    Debug.Log("EtatDash");
+                    UnityEngine.Debug.Log("EtatDash");
                     break;
                 case CharacterState.Dash:
                     currentCharacterState = CharacterState.DoubleJump;
-                    Debug.Log("EtatDoubleJump");
+                    UnityEngine.Debug.Log("EtatDoubleJump");
                     break;
-
             }
         }
+
         if (currentCharacterState == CharacterState.DoubleJump)
         {
             doubleJump.enabled = true;
             dash.colere = false;
             dash.enabled = false;
             shield.enabled = false;
+            Cc.unlockDoubleJump = true; // Active la possibilité de double saut
         }
+        else  
+        {
+            Cc.unlockDoubleJump = false; // Désactive la possibilité de double saut
+            Cc.maxJumps = 1;
+        }
+
         if (currentCharacterState == CharacterState.Dash)
         {
             Cc.maxJumps = 1;
@@ -83,6 +83,7 @@ public class ChangementEtat : MonoBehaviour
             dash.enabled = true;
             shield.enabled = false;
         }
+
         if (currentCharacterState == CharacterState.Shield)
         {
             Cc.maxJumps = 1;
@@ -91,5 +92,18 @@ public class ChangementEtat : MonoBehaviour
             dash.enabled = false;
             shield.enabled = true;
         }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        
+        if (collision.gameObject.CompareTag("DoubleJump"))
+        {
+            unlockDoubleJump = true;
+        }
+
+
+
     }
 }

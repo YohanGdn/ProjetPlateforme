@@ -7,7 +7,7 @@ public class CharacterController2D : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
-     public int maxJumps = 1;
+    public int maxJumps = 1;
 
     [SerializeField] DashMeca dashMeca;
 
@@ -24,9 +24,11 @@ public class CharacterController2D : MonoBehaviour
     private SpriteRenderer sr;
     
     private bool isDashing = false;
+
     private bool canDash = true;
     
     [SerializeField]public int remainingJumps;
+
     private bool hasJumped = false; // Nouvelle variable
 
 
@@ -45,17 +47,10 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] bool IsGrounded = true;
 
     bool unlockdash = false;
-    
+    public bool unlockDoubleJump = false;
 
-    /*
-        enum Test { state1, state2, state3, state4 };
-        Test myEnum = Test.state1;
-    */
 
-    /*
-    enum CharacterState { Normal, DoubleJump, Dash, Shield };
-    CharacterState currentCharacterState = CharacterState.Normal;
-    */
+
 
 
     private void Start()
@@ -98,16 +93,16 @@ public class CharacterController2D : MonoBehaviour
         {
             
             hasJumped = false; // Réinitialise la variable hasJumped lorsque le personnage est au sol
+
         }
 
-        if (remainingJumps > 0 && Input.GetKeyDown(KeyCode.Space))
+        if (remainingJumps >= 0 && Input.GetKeyDown(KeyCode.Space) && (remainingJumps == 1 || (remainingJumps == 2 && unlockDoubleJump)))
         {
             remainingJumps--;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
-        
-        
+
         if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true && dashMeca.colere == true)
         {
             StartCoroutine(Dash());
@@ -144,7 +139,7 @@ public class CharacterController2D : MonoBehaviour
     
     //Permet au joueur de ne pas glisser sur les plateforme tout en ne restant pas accroché aux murs
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
 
         remainingJumps = maxJumps;
@@ -159,7 +154,11 @@ public class CharacterController2D : MonoBehaviour
         {
             unlockdash = true;
         }
-        
+
+        if (collision.gameObject.CompareTag("DoubleJump"))
+        {
+            unlockDoubleJump = true;
+        }
 
 
 
@@ -187,82 +186,7 @@ public class CharacterController2D : MonoBehaviour
         Vector2 groundCheckPosition = new Vector2(transform.position.x, transform.position.y - CapsulPlayer.size.y * 0.6f);
         return Physics2D.OverlapCircle(groundCheckPosition, groundCheckRadius, groundLayer);
     }
-    /*
-    public bool IsTrist()
-    {
-        return tris;
-    }
-    */
-
-    // Update is called once per frame
-
-    /*
-    void UpdateSwitchState()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-
-            
-
-            switch (enum)
-            {
-                case CharacterState.Normal:
-                    myEnum = Test.state2;
-                    break;
-                case Test.state2:
-                    myEnum = Test.state3;
-                    break;
-                case Test.state3:
-                    myEnum = Test.state4;
-                    break;
-                case Test.state4:
-                    myEnum = Test.state1;
-                    break;
-            }
-            UpdateState();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-             
-            switch (enum)
-            {
-                case Test.state1:
-                    myEnum = Test.state4;
-                    break;
-                case Test.state2:
-                    myEnum = Test.state1;
-                    break;
-                case Test.state3:
-                    myEnum = Test.state2;
-                    break;
-                case Test.state4:
-                    myEnum = Test.state3;
-                    break;
-            }
-            UpdateState();
-        }
-       
-    }
-    // Création méthode avec Alt + Entrée
-    private void UpdateState()
-    {
-        switch (myEnum)
-        {
-            case Test.state1:
-                Debug.Log("State1");
-                break;
-            case Test.state2:
-                Debug.Log("State2");
-                break;
-            case Test.state3:
-                Debug.Log("State3");
-                break;
-            case Test.state4:
-                Debug.Log("State4");
-                break;
-        }
-    }
-    */
+   
 
     
 }
