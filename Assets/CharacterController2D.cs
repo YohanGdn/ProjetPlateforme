@@ -21,6 +21,7 @@ public class CharacterController2D : MonoBehaviour
 
 
     public Animator animator;
+    public Shield shield
 
 
     private Rigidbody2D rb;
@@ -180,6 +181,11 @@ public class CharacterController2D : MonoBehaviour
             unlockDoubleJump = true;
         }
 
+        if (collision.CompareTag("Portail") && playerShield.IsActive())
+        {
+            // Le joueur a activé son bouclier et peut traverser la plateforme
+            // Ajoutez ici votre logique spécifique à la plateforme
+        }
 
         if (collision.CompareTag("FallDetector"))
         {
