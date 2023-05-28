@@ -1,6 +1,8 @@
 
 
 using System.Collections;
+using System.Collections.Specialized;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
@@ -14,7 +16,6 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
-    
 
     CapsuleCollider2D CapsulPlayer;
 
@@ -34,17 +35,6 @@ public class CharacterController2D : MonoBehaviour
 
     private bool hasJumped = false; // Nouvelle variable
 
-
-
-
-    /*
-    private bool tris;
-    private bool joie;
-    private bool colere;
-    private bool defaulttype;
-    */
-
-
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] bool IsGrounded = true;
@@ -53,6 +43,8 @@ public class CharacterController2D : MonoBehaviour
     public bool unlockDoubleJump = false;
 
 
+    private Vector3 respawnPoint;
+    public GameObject fallDetector;
 
 
 
@@ -67,8 +59,13 @@ public class CharacterController2D : MonoBehaviour
 
         CapsulPlayer = GetComponent<CapsuleCollider2D>();
 
+        respawnPoint = transform.position;
+       
+
+
     }
 
+   
     private void Update()
     {
 
@@ -90,9 +87,8 @@ public class CharacterController2D : MonoBehaviour
         }
 
 
-
-
-
+        
+        
 
         if (CheckIsGrounded())
         {
@@ -101,21 +97,40 @@ public class CharacterController2D : MonoBehaviour
 
         }
 
+        // Code du saut
+
+        if (!CheckIsGrounded())
+        {
+            animator.SetBool("IsJumping", true);
+        }
+        else
+        {
+            animator.SetBool("IsJumping", false);
+            remainingJumps = maxJumps; 
+        }
+
         if (remainingJumps >= 0 && Input.GetKeyDown(KeyCode.Space) && (remainingJumps == 1 || (remainingJumps == 2 && unlockDoubleJump)))
         {
             remainingJumps--;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+
+            animator.SetBool("IsJumping", true);
+            
         }
 
         if (canDash && Input.GetKeyDown(KeyCode.LeftShift) && unlockdash == true && dashMeca.colere == true)
         {
             StartCoroutine(Dash());
         }
-        
-        
-        
+
+        fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
+
     }
+
+    
+
+    //Code du dash
     
     private IEnumerator Dash()
     {
@@ -166,6 +181,14 @@ public class CharacterController2D : MonoBehaviour
         }
 
 
+        if (collision.CompareTag("FallDetector"))
+        {
+            transform.position = respawnPoint;
+        }
+        else if (collision.CompareTag("Checkpoint") && !GetComponent<Shield>().HasShield())
+        {
+            respawnPoint = transform.position;
+        }
 
     }
 

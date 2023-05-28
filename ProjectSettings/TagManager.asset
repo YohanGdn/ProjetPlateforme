@@ -9,6 +9,8 @@ TagManager:
   - dash
   - DoubleJump
   - Shield
+  - Checkpoint
+  - FallDetector
   layers:
   - Default
   - TransparentFX

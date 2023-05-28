@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
@@ -8,6 +9,9 @@ public class Shield : MonoBehaviour
     [SerializeField] private float shieldDuration = 5f;
     [SerializeField] private float shieldCooldown = 10f;
     [SerializeField] private KeyCode shieldKey = KeyCode.E;
+    /*
+    [SerializeField] public bool HasShield;
+    */
 
     private GameObject activeShield;
     private bool shieldReady = true;
@@ -18,7 +22,9 @@ public class Shield : MonoBehaviour
 
     bool unlockShield = false;
 
-    private PlatformsDamage platformsDamage; // Ajouter une référence à la classe PlatformsDamage
+    private Vector3 respawnPoint;
+
+
 
     private void Start()
     {
@@ -26,8 +32,7 @@ public class Shield : MonoBehaviour
         originalMaterial = capsulePlayer.sharedMaterial;
 
 
-        // Obtenir la référence à la classe PlatformsDamage
-        platformsDamage = GetComponent<PlatformsDamage>();
+      ;
     }
 
     void Update()
@@ -35,7 +40,9 @@ public class Shield : MonoBehaviour
         if (Input.GetKeyDown(shieldKey) && shieldReady && unlockShield == true)
         {
             StartCoroutine(ActivateShield());
+            
         }
+       
 
         //UpdateBounciness();
     }
@@ -49,7 +56,7 @@ public class Shield : MonoBehaviour
 
         //capsulePlayer.sharedMaterial = shieldMaterial;
 
-        platformsDamage.SetShieldActive(true); // Activer le bouclier dans la classe PlatformsDamage
+        
 
         yield return new WaitForSeconds(shieldDuration);
 
@@ -59,7 +66,7 @@ public class Shield : MonoBehaviour
 
         yield return new WaitForSeconds(shieldCooldown);
 
-        platformsDamage.SetShieldActive(false); // Désactiver le bouclier dans la classe PlatformsDamage
+       
 
         shieldReady = true;
     }
@@ -72,26 +79,23 @@ public class Shield : MonoBehaviour
         {
             unlockShield = true;
         }
+        
+        if (collision.tag == "PlatformDamage")
+        {
+            transform.position = respawnPoint;
+        }
+        else if (collision.tag == "Checkpoint")
+        {
+            respawnPoint = transform.position;
+        }
 
+        
 
 
     }
 
-    /*
-    private void UpdateBounciness()
-    {
-        if (HasShield())
-        {
-            capsulePlayer.sharedMaterial.bounciness = 1f;
-        }
-        else
-        {
-            capsulePlayer.sharedMaterial.bounciness = 0f;
-        }
-    }
 
-     */
-    public bool HasShield()
+    [SerializeField] public bool HasShield()
     {
         return activeShield != null;
     }
