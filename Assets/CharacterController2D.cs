@@ -19,6 +19,9 @@ public class CharacterController2D : MonoBehaviour
     CapsuleCollider2D CapsulPlayer;
 
 
+    public Animator animator;
+
+
     private Rigidbody2D rb;
     
     private SpriteRenderer sr;
@@ -82,6 +85,8 @@ public class CharacterController2D : MonoBehaviour
             {
                 sr.flipX = true;
             }
+            float characterVelocity = Mathf.Abs(rb.velocity.x);
+            animator.SetFloat("Speed", characterVelocity);
         }
 
 
