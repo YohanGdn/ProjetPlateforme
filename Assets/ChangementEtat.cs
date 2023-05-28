@@ -11,7 +11,14 @@ public class ChangementEtat : MonoBehaviour
     [SerializeField] DashMeca dash;
     [SerializeField] Shield shield;
 
+   
+
     bool unlockDoubleJump = false;
+
+    [SerializeField] Light auraLight;
+    [SerializeField] Color doubleJumpColor;
+    [SerializeField] Color dashColor;
+    [SerializeField] Color shieldColor;
 
     // Update is called once per frame
     void Update()
@@ -23,19 +30,24 @@ public class ChangementEtat : MonoBehaviour
                 case CharacterState.Normal:
                     currentCharacterState = CharacterState.DoubleJump;
                     UnityEngine.Debug.Log("EtatDoubleJump");
+                   
                     break;
                 case CharacterState.DoubleJump:
                     currentCharacterState = CharacterState.Dash;
                     UnityEngine.Debug.Log("EtatDash");
+                    
+
                     break;
                 case CharacterState.Dash:
                     currentCharacterState = CharacterState.Shield;
                     UnityEngine.Debug.Log("EtatShield");
+                   
                     break;
                 case CharacterState.Shield:
                     currentCharacterState = CharacterState.DoubleJump;
                     UnityEngine.Debug.Log("EtatDoubleJump");
                     break;
+                    
             }
         }
 
@@ -46,19 +58,25 @@ public class ChangementEtat : MonoBehaviour
                 case CharacterState.Normal:
                     currentCharacterState = CharacterState.DoubleJump;
                     UnityEngine.Debug.Log("EtatDoubleJump");
+                    
+
                     break;
                 case CharacterState.DoubleJump:
                     currentCharacterState = CharacterState.Shield;
                     UnityEngine.Debug.Log("EtatShield");
+                   
+
                     break;
                 case CharacterState.Shield:
                     currentCharacterState = CharacterState.Dash;
                     UnityEngine.Debug.Log("EtatDash");
+                    
                     break;
                 case CharacterState.Dash:
                     currentCharacterState = CharacterState.DoubleJump;
                     UnityEngine.Debug.Log("EtatDoubleJump");
                     break;
+                  
             }
         }
 
@@ -92,6 +110,21 @@ public class ChangementEtat : MonoBehaviour
             dash.enabled = false;
             shield.enabled = true;
         }
+        // change la couleur de l'aura du personnage en fonction de son état
+        switch (currentCharacterState)
+        {
+            
+            case CharacterState.DoubleJump:
+                auraLight.color = doubleJumpColor;
+                break;
+            case CharacterState.Dash:
+                auraLight.color = dashColor;
+                break;
+            case CharacterState.Shield:
+                auraLight.color = shieldColor;
+                break;
+        }
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -106,4 +139,6 @@ public class ChangementEtat : MonoBehaviour
 
 
     }
+
+
 }
